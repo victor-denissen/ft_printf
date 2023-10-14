@@ -1,62 +1,43 @@
-# Name of the library we'll create
-NAME = libftprintf.a
-
-# Compiler and flags
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
-
-# Directories for source and object files
-SRC_DIR = src
-LIBFT_DIR = libft
-OBJ_DIR = obj
-INC_DIR = inc
+NAME :=		libftprintf.a
+CC :=		gcc
+CFLAGS :=	-Wall -Wextra -Werror
+AR :=		ar rcs
+OBJDIR :=	obj
 
 
-# List of .c files
-SRCS = ft_pntr_print.c ft_printf.c ft_putstr.c ft_ulltoa.c print_base.c
+SRCS :=	src/ft_pntr_print.c\
+		src/ft_printf.c\
+		src/ft_putstr.c\
+		src/ft_ulltoa.c\
+		src/print_base.c
 
-# Convert .c files to .o files
-OBJS = $(patsubst %.c,$(OBJ_DIR)/%.o,$(filter-out $(LIBFT_DIR)/ft_printf.c,$(SRCS))) \
-       $(patsubst $(LIBFT_DIR)/%.c,$(OBJ_DIR)/%.o,$(wildcard $(LIBFT_DIR)/*.c))
+OBJS : $(SRCS:%.c=$(OBJDIR)/%.o)
+	
 
-# Path to .c files
-SRC_FILES = $(addprefix $(SRC_DIR)/,$(SRCS))
+HEADERS := inc/ft_printf.h
 
-# Path to .o files
-OBJ_DIR = obj
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
+all:	$(NAME)
 
-# Header files
-HDRS = $(wildcard $(INC_DIR)/*.h)
+$(NAME):	$(OBJS) $(HEADERS)
+				make -C libft
+				$(AR) $@ $^
+				echo "Compiled $@"
 
-# Targets
-all: $(NAME)
-
-$(NAME): $(OBJS)
-	@make -C libft
-	@$(AR) $@ $^
-	@echo "Created $@"
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HDRS)
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(LIBFT_DIR)/%.c $(HDRS)                                       
-	@mkdir -p $(OBJ_DIR)                                                    
-	@$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
+$(OBJDIR)/%.o: %.c $(HEADERS)                                       
+				mkdir -p $(@D)
+				echo "Compiling $@"
+				$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	@make -C libft clean
-	@rm -rf $(OBJ_DIR)
+				make -C libft clean
+				rm -rf $(OBJDIR)
 
-fclean: clean
-	@make -C libft fclean
-	@rm -f $(NAME)
+fclean:	
+				make clean
+				make -C libft fclean
+				rm -f $(NAME)
 
 re: fclean all
 
-# Phony targets
+.SILENT:
 .PHONY: all clean fclean re
-
-
