@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:58:24 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/14 15:07:25 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:49:43 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_PRINTF_H
@@ -23,16 +23,25 @@
 # define LOG_MAX 9223372036854775807
 # define LOG_MIN -9223372036854775808
 
-int		ft_string_printer(const char *str);
-int		ft_character_printer(int chr);
-int		ft_ptr_printer(unsigned long long ptr);
-int		ft_put_udec(unsigned int nbr);
+//ft_printf.c
+int		ft_printf(const char *str, ...);
 int		ft_print(const char *str, va_list args);
 int		ft_print_chooser(const char *str, int index, va_list *args);
-int		ft_printf(const char *str, ...);
-int		ft_number_printer(int nbr);
+
+//ft_pntr_print.c
+int		ft_ptr_printer(unsigned long long ptr);
+
+//ft_putstr.c
+int		ft_string_printer(const char *str);
+int		ft_character_printer(int chr);
 int		ft_uint_printer(unsigned int nbr);
+int		ft_number_printer(int nbr);
+
+//ft_ulltoa.c
 char	*ft_ulltoa(unsigned long long nbr);
+
+//print_base.c
+int		ft_put_udec(unsigned int nbr);
 int		ft_putnbr_base(unsigned int nbr, char *base);
 
 #endif
