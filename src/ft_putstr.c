@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:44:24 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/05/08 13:38:40 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:24:14 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_character_printer(int chr)
 	return (ft_string_printer(str));
 }
 
-//fix this
 int	ft_uint_printer(unsigned int nbr)
 {
 	int		printed;
