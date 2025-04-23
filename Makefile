@@ -1,43 +1,51 @@
-NAME :=		libftprintf.a
-CC :=		gcc
-CFLAGS :=	-Wall -Wextra -Werror
-AR :=		ar rcs
-OBJDIR :=	obj
+# === Config ===
+NAME     = libftprintf.a
+SRC_DIR  = src
+OBJ_DIR  = obj
+INC_DIR  = inc
+LIBFT_DIR = libft
+LIBFT_A   = $(LIBFT_DIR)/libft.a
 
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-SRCS :=	src/ft_pntr_print.c\
-		src/ft_printf.c\
-		src/ft_putstr.c\
-		src/ft_ulltoa.c\
-		src/print_base.c
+CC     = cc
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR)/header
+AR     = ar rcs
 
-OBJS : $(SRCS:%.c=$(OBJDIR)/%.o)
-	
+# === Default ===
+all: submodule $(LIBFT_A) $(NAME)
 
-HEADERS := inc/ft_printf.h
+# === Ensure libft is initialized and up to date ===
+submodule:
+	git submodule update --init --recursive
+	git submodule update --remote --merge --recursive
 
-all:	$(NAME)
+# === Build libft ===
+$(LIBFT_A):
+	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME):	$(OBJS) $(HEADERS)
-				make -C libft
-				$(AR) $@ $^
-				echo "Compiled $@"
+# === Build printf lib ===
+$(NAME): $(OBJS)
+	$(AR) $@ $^ $(LIBFT_A)
 
-$(OBJDIR)/%.o: %.c $(HEADERS)                                       
-				mkdir -p $(@D)
-				echo "Compiling $@"
-				$(CC) -c $(CFLAGS) $< -o $@
+# === Compile rule ===
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# === Debug build ===
+debug: CFLAGS += -g
+debug: re
+
+# === Cleaning ===
 clean:
-				make -C libft clean
-				rm -rf $(OBJDIR)
+	rm -rf $(OBJ_DIR)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
-fclean:	
-				make clean
-				make -C libft fclean
-				rm -f $(NAME)
+fclean: clean
+	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.SILENT:
-.PHONY: all clean fclean re
