@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 11:48:34 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/05/30 13:47:30 by vdenisse         ###   ########.fr       */
+/*   Created: 2023/04/03 16:20:59 by vdenisse          #+#    #+#             */
+/*   Updated: 2023/11/20 14:38:28 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_atoi(const char *nptr)
 {
-	size_t	len;
+	unsigned long int	result;
+	int					i;
+	int					sign;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	sign = 1;
+	i = 0;
+	while (nptr[i] == ' ' || (9 <= nptr[i] && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+		if (nptr[i++] == '-')
+			sign = -1;
+	result = 0;
+	while ('0' <= nptr[i] && nptr[i] <= '9')
+	{
+		result *= 10;
+		result += nptr[i] - '0';
+		i++;
+	}
+	return (result * sign);
 }

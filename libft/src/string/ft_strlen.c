@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/08 09:54:55 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/05/30 13:46:54 by vdenisse         ###   ########.fr       */
+/*   Created: 2023/04/03 11:48:34 by vdenisse          #+#    #+#             */
+/*   Updated: 2023/10/17 14:52:53 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../header/libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+size_t	ft_strlen(const char *s)
 {
-	t_list	*next;
-	t_list	*tmp;
+	size_t	len;
 
-	if (!lst)
-		return ;
-	tmp = *lst;
-	while (tmp != NULL)
-	{
-		next = tmp->next;
-		(*del)(tmp->content);
-		free(tmp);
-		tmp = next;
-	}
-	*lst = NULL;
+	if (!s)
+		return (0);
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
 }
