@@ -27,7 +27,7 @@ $(LIBFT_A):
 
 # === Build printf lib ===
 $(NAME): $(OBJS)
-	$(AR) $@ $^ $(LIBFT_A)
+	$(AR) $@ $^
 
 # === Compile rule ===
 $(OBJ_DIR)/%.o: %.c
@@ -35,8 +35,11 @@ $(OBJ_DIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # === Debug build ===
-debug: CFLAGS += -g
-debug: re
+debug:
+	$(MAKE) -C $(LIBFT_DIR) debug
+	$(MAKE) fclean
+	$(MAKE) all CFLAGS="$(CFLAGS) -g"
+
 
 # === Cleaning ===
 clean:
